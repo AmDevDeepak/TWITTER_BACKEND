@@ -1,17 +1,31 @@
-const TweetRepository = require("../respository/index");
+const { TweetRepository, HashtagRepository } = require("../respository/index");
 
 class TweetService {
   constructor() {
     this.tweetRepository = new TweetRepository();
+    this.hastagRepository = new HashtagRepository();
   }
 
   async create(data) {
     const content = data.content;
-    const tags = content.match(/#[a-zA-Z0-9_]+/g); // Regex to extract hashtags.
-    tags = tags.map((tag) => tag.substring(1));
-    console.log(tags);
+
+    const tags = content.match(/#[a-zA-Z0-9_]+/g).map((tag) => tag.substring(1)); // Regex to extract hashtags.
+
     const tweet = await this.tweetRepository.create(data);
-    // Todo : create hashtags and add them.
+
+    let alreadyPresentTags = await this.hastagRepository.findByName(tags);
+    let titleOfPresentTags = alreadyPresentTags.map((tag) => tag.title);
+
+    let newTags = tags.filter((tag) => !titleOfPresentTags.includes(tag));
+    newTags = newTags.map((tag) => {
+      return { title: tag, tweets: [tweet.id] };
+    });
+    await this.hastagRepository.bulkCreate(newTags);
+
+    alreadyPresentTags.forEach((tag) => {
+      tag.tweets.push(tweet.id);
+      tag.save();
+    });
     return tweet;
   }
 }

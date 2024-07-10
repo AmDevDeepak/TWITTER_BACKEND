@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
-
+const { MONGODB_URI } = require("./serverConfig");
 const connect = async () => {
   try {
-    await mongoose.connect("mongodb://localhost/twitter_dev");
+    await mongoose.connect(MONGODB_URI);
     console.log("Connected to MongoDB");
   } catch (error) {
-    console.log("Some errror occurred during connecting to MongoDB");
+    console.log("Some error occurred while connecting to MongoDB", error);
   }
 };
 

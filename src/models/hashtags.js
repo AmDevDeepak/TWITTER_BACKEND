@@ -1,4 +1,4 @@
-const mongoose = require("mongoosse");
+const mongoose = require("mongoose");
 
 const hashtagSchema = new mongoose.Schema(
   {
@@ -17,5 +17,5 @@ const hashtagSchema = new mongoose.Schema(
 );
 
 
-const Hashtag = mongoose.model("Hashtag", tweetSchema);
+const Hashtag = mongoose.model("Hashtag", hashtagSchema);
 module.exports = Hashtag;
