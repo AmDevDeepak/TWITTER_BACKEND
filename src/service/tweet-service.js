@@ -9,7 +9,10 @@ class TweetService {
   async create(data) {
     const content = data.content;
 
-    const tags = content.match(/#[a-zA-Z0-9_]+/g).map((tag) => tag.substring(1)); // Regex to extract hashtags.
+    const tags = content
+      .match(/#[a-zA-Z0-9_]+/g)
+      .map((tag) => tag.substring(1))
+      .map((tag) => tag.toLowerCase()); // Regex to extract hashtags.
 
     const tweet = await this.tweetRepository.create(data);
 
@@ -21,6 +24,7 @@ class TweetService {
       return { title: tag, tweets: [tweet.id] };
     });
     await this.hastagRepository.bulkCreate(newTags);
+  
 
     alreadyPresentTags.forEach((tag) => {
       tag.tweets.push(tweet.id);
