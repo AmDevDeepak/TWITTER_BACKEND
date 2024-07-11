@@ -1,4 +1,4 @@
-const { TweetRepository, HashtagRepository } = require("../respository/index");
+import { TweetRepository, HashtagRepository } from "../respository/index.js";
 
 class TweetService {
   constructor() {
@@ -30,4 +30,4 @@ class TweetService {
   }
 }
 
-module.exports = TweetService;
+export default TweetService;
