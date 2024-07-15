@@ -14,13 +14,19 @@ const commentSchema = new mongoose.Schema(
     onModel: {
       type: String,
       required: true,
-      enum: ['Tweet', 'Comment'],
+      enum: ["Tweet", "Comment"],
     },
     commentable: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      refPath: 'onModel',
-    }
+      refPath: "onModel",
+    },
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment",
+      }
+    ]
   },
   { timestamps: true }
 );
