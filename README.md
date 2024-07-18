@@ -7,12 +7,4 @@ Here gose the requirements :
 - We can like a comment and can comment on that comment too.
 - Retweeting
 
-- User Profile :
-  - Name
-  - Followers count
-  - Bio
-  - Last 10 tweets created by user
 
-- Pagination on tweets.
-- User Auth
-- Every tweet might be having a hashtag.
