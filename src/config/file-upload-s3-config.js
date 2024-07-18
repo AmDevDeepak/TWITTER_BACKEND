@@ -1,12 +1,9 @@
 import multer from "multer";
 import multerS3 from "multer-s3";
 import aws from "aws-sdk";
-import {
-  AWS_REGION,
-  SECRET_ACCESS_KEY,
-  ACCESS_KEY_ID,
-  BUCKET_NAME,
-} from "./serverConfig.js";
+import { config } from "./serverConfig.js";
+const { ACCESS_KEY_ID, AWS_REGION, SECRET_ACCESS_KEY, BUCKET_NAME } = config;
+
 aws.config.update({
   region: AWS_REGION,
   accessKeyId: ACCESS_KEY_ID,
@@ -19,10 +16,10 @@ const upload = multer({
   storage: multerS3({
     s3: s3,
     bucket: BUCKET_NAME,
-    acl: "public-read",
-    metadata: function (req, res, cb) {
-      cb(null, { fieldName: File.fieldName });
+    metadata: function (req, file, cb) {
+      cb(null, { fieldName:  file.fieldname});
     },
+    acl: "public-read",
     key: function (req, file, cb) {
       cb(null, Date.now().toString());
     },
